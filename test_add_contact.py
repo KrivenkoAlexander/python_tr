@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from selenium.webdriver.firefox.webdriver import WebDriver
 import pytest
 from application_contact import Application
 from contact import Contact
