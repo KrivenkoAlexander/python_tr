@@ -72,6 +72,31 @@ class ContactHelper:
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
 
+    def delete_first_contact(self):
+        wd = self.app.wd
+        #open contacts page
+        wd.find_element_by_link_text("home").click()
+        #select  the first contact
+        wd.find_element_by_name("selected[]").click()
+        # delete contact
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+
+    def edit(self,contact,droplist, droplist2):
+        wd = self.app.wd
+        #open contacts page
+        wd.find_element_by_link_text("home").click()
+        #select  the first contact
+        wd.find_element_by_name("selected[]").click()
+        # pick on edit button
+        wd.find_element_by_xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        # edit contacts field
+        self.fill_user_form(contact, droplist, droplist2)
+        # submit changes of contact
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+        #return to home page
+        wd.find_element_by_link_text("home page").click()
+
     def submit_user_creation(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
