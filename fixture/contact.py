@@ -18,9 +18,8 @@ class ContactHelper:
 
     def select_drop_list(self, droplist):
         wd = self.app.wd
-        if not wd.find_element_by_xpath(droplist).is_selected():
+        if  wd.find_element_by_xpath(droplist).is_selected():
             pass
-            #wd.find_element_by_xpath(droplist).click()
 
     def fill_user_form(self,contact):
         wd = self.app.wd
