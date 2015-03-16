@@ -82,3 +82,7 @@ class ContactHelper:
         wd.find_element_by_link_text("home").click()
         return len(wd.find_elements_by_name("selected[]"))
 
+    def create_contact(self,contact_data):
+        self.init_new_user()
+        self.fill_user_form(contact_data)
+        self.submit_user_creation()
