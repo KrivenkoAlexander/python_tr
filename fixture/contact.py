@@ -46,8 +46,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-        #open contacts page
-        wd.find_element_by_link_text("home").click()
+        self.open_contacts_page()
         #select  the first contact
         wd.find_element_by_name("selected[]").click()
         # delete contact
@@ -60,8 +59,7 @@ class ContactHelper:
 
     def modify_first_contact(self,contact):
         wd = self.app.wd
-        #open contacts page
-        wd.find_element_by_link_text("home").click()
+        self.open_contacts_page()
         self.select_first_contact()
         # pick on edit button
         wd.find_element_by_xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
@@ -69,20 +67,25 @@ class ContactHelper:
         self.fill_user_form(contact)
         # submit changes of contact
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
-        #return to home page
-        wd.find_element_by_link_text("home page").click()
+        self.open_contacts_page()
 
     def submit_user_creation(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
+    def open_contacts_page(self):
+        wd = self.app.wd
+        if not(wd.current_url.endswith("/addressbook") and len(wd.find_elements_by_link_text("Last name"))>0):
+            wd.find_element_by_link_text("home").click()
+
     def count(self):
         wd = self.app.wd
-        #open contacts page
-        wd.find_element_by_link_text("home").click()
+        self.open_contacts_page()
         return len(wd.find_elements_by_name("selected[]"))
 
     def create_contact(self,contact_data):
+        wd = self.app.wd
         self.init_new_user()
         self.fill_user_form(contact_data)
         self.submit_user_creation()
+        self.open_contacts_page()
