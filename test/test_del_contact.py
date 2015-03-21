@@ -9,5 +9,7 @@ def test_del_contact(app):
                                         droplist="//div[@id='content']/form/select[1]//option[4]",
                                         droplist2="//div[@id='content']/form/select[2]//option[8]",
                                         droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]"))
-
+        old_list=app.contact.get_list()
         app.contact.delete_first_contact()
+        new_list=app.contact.get_list()
+        assert len(old_list)-1 == len(new_list)
