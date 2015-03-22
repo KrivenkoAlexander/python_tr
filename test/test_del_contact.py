@@ -13,3 +13,5 @@ def test_del_contact(app):
         app.contact.delete_first_contact()
         new_list=app.contact.get_list()
         assert len(old_list)-1 == len(new_list)
+        old_list[0:1]=[]
+        assert len(old_list) == len(new_list)
