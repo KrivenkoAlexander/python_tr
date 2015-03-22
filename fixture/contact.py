@@ -95,7 +95,7 @@ class ContactHelper:
         wd=self.app.wd
         self.open_contacts_page()
         list_contact=[]
-        for contact in wd.find_elements_by_css_selector("tr")[1:]:
+        for contact in wd.find_elements_by_css_selector("tr[name=entry]"):
             text=contact.text
             id=contact.find_element_by_name("selected[]").get_attribute("value")
             list_contact.append(Contact(firstname=text,id=id))
