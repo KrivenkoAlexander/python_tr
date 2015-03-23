@@ -1,5 +1,6 @@
 __author__ = 'Krivenko'
 from model.contact import Contact
+from random import randrange
 
 def test_del_contact(app):
         if app.contact.count()==0:
@@ -10,8 +11,9 @@ def test_del_contact(app):
                                         droplist2="//div[@id='content']/form/select[2]//option[8]",
                                         droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]"))
         old_list=app.contact.get_list()
-        app.contact.delete_first_contact()
+        index=randrange(len(old_list))
+        app.contact.delete_contact_by_index(index)
         new_list=app.contact.get_list()
         assert len(old_list)-1 == len(new_list)
-        old_list[0:1]=[]
+        old_list[index:index+1]=[]
         assert len(old_list) == len(new_list)

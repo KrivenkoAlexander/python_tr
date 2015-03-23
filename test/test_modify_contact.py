@@ -1,5 +1,6 @@
 __author__ = 'Krivenko'
 from model.contact import Contact
+from random import randrange
 
 def test_modify_contact_firstname(app):
     if app.contact.count()==0:
@@ -10,15 +11,16 @@ def test_modify_contact_firstname(app):
                                         droplist2="//div[@id='content']/form/select[2]//option[8]",
                                         droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]"))
     old_list=app.contact.get_list()
-    contact=Contact(firstname="Александр",
+    index=randrange(len(old_list))
+    contact_data=Contact(firstname="Александр",
                             droplist="//div[@id='content']/form/select[1]//option[4]",
                             droplist2="//div[@id='content']/form/select[2]//option[8]",
                             droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]")
-    contact.id=old_list[0].id
-    app.contact.modify_first_contact(contact)
+    contact_data.id=old_list[index].id
+    app.contact.modify_contact_by_index(contact_data,index)
     new_list=app.contact.get_list()
     assert len(old_list) == len(new_list)
-    old_list[0]=contact
+    old_list[index]=contact_data
     assert sorted(old_list,key=Contact.id_or_max) == sorted(new_list,key=Contact.id_or_max)
 
 
