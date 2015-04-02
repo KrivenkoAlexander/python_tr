@@ -31,9 +31,9 @@ class ContactHelper:
         self.change_fields("title",contact.title)
         self.change_fields("company",contact.company)
         self.change_fields("address",contact.address)
-        self.change_fields("home",contact.home)
-        self.change_fields("mobile",contact.mobile)
-        self.change_fields("work",contact.work)
+        self.change_fields("home",contact.homephone)
+        self.change_fields("mobile",contact.mobilephone)
+        self.change_fields("work",contact.workphone)
         self.change_fields("fax",contact.fax)
         self.select_drop_list(contact.droplist)
         self.select_drop_list(contact.droplist2)
@@ -69,13 +69,10 @@ class ContactHelper:
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
 
-
     def modify_contact_by_index(self,contact,index):
         wd = self.app.wd
         self.open_contacts_page()
-        self.select_contact_by_index(index)
-        # pick on edit button
-        wd.find_element_by_xpath("//div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        self.open_contact_to_edit_by_index(index)
         # edit contacts field
         self.fill_user_form(contact)
         # submit changes of contact
@@ -117,5 +114,51 @@ class ContactHelper:
                 firstname=cell[2].text
                 lastname=cell[1].text
                 id=contact.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(lastname=lastname,firstname=firstname,id=id))
+                allphones=cell[5].text
+                allemail=cell[4].text
+                alladress=cell[3].text
+                self.contact_cache.append(Contact(lastname=lastname,firstname=firstname,id=id,allphones=allphones,allemail=allemail,alladress=alladress))
         return list(self.contact_cache)
+
+    def get_contact_info_editpage(self,index):
+        wd=self.app.wd
+        self.open_contact_to_edit_by_index(index)
+        # read information from fields
+        firstname=wd.find_element_by_name('firstname').get_attribute('value')
+        lastname=wd.find_element_by_css_selector('input[name=lastname]').get_attribute('value')
+        id=wd.find_element_by_name('id').get_attribute('value')
+        adress=wd.find_element_by_name("address").text
+        homephone=wd.find_element_by_css_selector('input[name=home]').get_attribute('value')
+        secondaryphone=wd.find_element_by_css_selector('input[name=phone2]').get_attribute('value')
+        mobilephone=wd.find_element_by_css_selector('input[name=mobile]').get_attribute('value')
+        workphone=wd.find_element_by_css_selector('input[name=work]').get_attribute('value')
+        email=wd.find_element_by_css_selector('input[name=email]').get_attribute('value')
+        email2=wd.find_element_by_css_selector('input[name=email2]').get_attribute('value')
+        email3=wd.find_element_by_css_selector('input[name=email3]').get_attribute('value')
+        contact= Contact(lastname=lastname,firstname=firstname,id=id,homephone=homephone,workphone=workphone,
+                                mobilephone=mobilephone,secondaryphone=secondaryphone,email=email,email2=email2,email3=email3,address=adress)
+        return contact
+
+    def open_contact_to_edit_by_index(self,index):
+        wd=self.app.wd
+        self.open_contacts_page()
+        tr=wd.find_elements_by_css_selector("tr[name=entry]")[index]
+        tr.find_element_by_css_selector('img[alt=Edit]').click()
+
+
+    def get_contact_info_homepage(self,index):
+        wd=self.app.wd
+        self.open_contacts_page()
+        contact=wd.find_elements_by_css_selector("tr[name=entry]")[index]
+        cell=contact.find_elements_by_css_selector("td")
+        firstname=cell[2].text
+        lastname=cell[1].text
+        id=contact.find_element_by_name("selected[]").get_attribute("value")
+        allphones=cell[5].text
+        allemail=cell[4].text
+        alladress=cell[3].text
+        contact= (Contact(lastname=lastname,firstname=firstname,id=id,allphones=allphones,allemail=allemail,alladress=alladress))
+        return contact
+
+
+

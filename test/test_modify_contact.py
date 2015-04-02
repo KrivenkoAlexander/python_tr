@@ -5,7 +5,7 @@ from random import randrange
 def test_modify_contact_firstname(app):
     if app.contact.count()==0:
         app.contact.create_contact( Contact(firstname="Alex", middlename="a", lastname="Kriv", nickname="sd", title="fdf",
-                                        company="sdd", address="we", home="we", mobile="433", work="443", fax="3",
+                                        company="sdd", address="we", homephone="we", mobilephone="433", workphone="443", fax="3",
                                         byear="1988", ayear="1988",address2="retert", phone2="rr", notes="e",
                                         droplist="//div[@id='content']/form/select[1]//option[4]",
                                         droplist2="//div[@id='content']/form/select[2]//option[8]",
