@@ -4,13 +4,12 @@ from model.contact import Contact
 import string
 import random
 import pytest
-import re
 
 def random_str(prefix,maxlen):
     symbols= string.ascii_letters + string.digits+' '*100
     return prefix+"".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
-test_data=[Contact(firstname='firstnameu', middlename='middle', lastname=random_str("lastname",10), nickname='nickname', title='title',
+test_data=[Contact(firstname=random_str('firstname',15), middlename='middle', lastname="lastname", nickname='nickname', title='title',
                                         company="sdd", address="we", homephone="500", mobilephone="433", workphone="443", fax="3",
                                         byear="1988", ayear="1988",address2="retert", phone2="rr", notes="e",
                                         droplist="//div[@id='content']/form/select[1]//option[4]",
@@ -19,7 +18,7 @@ test_data=[Contact(firstname='firstnameu', middlename='middle', lastname=random_
 
 @pytest.mark.parametrize('contact',test_data,ids=[repr(x) for x in test_data] )
 def test_test_add_contact(app,contact):
-     #app.open_home_page()
+     app.open_home_page()
      old_list=app.contact.get_list()
      app.contact.create_contact(contact)
      new_list=app.contact.get_list()

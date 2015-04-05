@@ -99,7 +99,8 @@ class ContactHelper:
         self.init_new_user()
         self.fill_user_form(contact_data)
         self.submit_user_creation()
-        self.open_contacts_page()
+        #self.open_contacts_page()
+        wd.find_element_by_link_text("home").click()
         self.contact_cache=None
 
     contact_cache= None

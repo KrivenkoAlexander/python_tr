@@ -5,10 +5,10 @@ import random
 from model.group import Group
 
 def random_string (prefix, maxlen):
-    symbols= string.ascii_letters+string.digits+ " "*10
+    symbols= string.ascii_letters+string.digits
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
-test_data=[Group(name="", header="", footer="")]+[Group(name=random_string('name',10), header=random_string('header',20), footer=random_string('footer',20)) for i in range(5)]
+test_data=[Group(name="", header="", footer="")]+[Group(name=random_string('name',10), header=random_string('header',20), footer=random_string('footer',20)) for i in range(1)]
 
 @pytest.mark.parametrize('group',test_data,ids=[str (x) for x in test_data])
 
