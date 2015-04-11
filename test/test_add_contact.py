@@ -1,23 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from model.contact import Contact
-import string
-import random
-import pytest
 
-def random_str(prefix,maxlen):
-    symbols= string.ascii_letters + string.digits+' '*100
-    return prefix+"".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-test_data=[Contact(firstname=random_str('firstname',15), middlename='middle', lastname="lastname", nickname='nickname', title='title',
-                                        company="sdd", address="we", homephone="500", mobilephone="433", workphone="443", fax="3",
-                                        byear="1988", ayear="1988",address2="retert", phone2="rr", notes="e",
-                                        droplist="//div[@id='content']/form/select[1]//option[4]",
-                                        droplist2="//div[@id='content']/form/select[2]//option[8]",
-                                        droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]") for i in range(1)]
-
-@pytest.mark.parametrize('contact',test_data,ids=[repr(x) for x in test_data] )
-def test_test_add_contact(app,contact):
+def test_test_add_contact(app,json_contacts):
+     contact=json_contacts
      app.open_home_page()
      old_list=app.contact.get_list()
      app.contact.create_contact(contact)
