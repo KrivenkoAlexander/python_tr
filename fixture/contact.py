@@ -69,6 +69,17 @@ class ContactHelper:
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
 
+    def modify_contact_by_id(self,contact,id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.open_contact_to_edit_by_id(id)
+        # edit contacts field
+        self.fill_user_form(contact)
+        # submit changes of contact
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+        self.open_contacts_page()
+        self.contact_cache=None
+
     def modify_contact_by_index(self,contact,index):
         wd = self.app.wd
         self.open_contacts_page()
@@ -112,8 +123,8 @@ class ContactHelper:
             self.contact_cache=[]
             for contact in wd.find_elements_by_css_selector("tr[name=entry]"):
                 cell=contact.find_elements_by_css_selector("td")
-                firstname=cell[2].text.replace(' ','')
-                lastname=cell[1].text.replace(' ','')
+                firstname=cell[2].text#.replace(' ','')
+                lastname=cell[1].text#.replace(' ','')
                 id=contact.find_element_by_name("selected[]").get_attribute("value")
                 allphones=cell[5].text
                 allemail=cell[4].text
@@ -146,6 +157,15 @@ class ContactHelper:
         tr=wd.find_elements_by_css_selector("tr[name=entry]")[index]
         tr.find_element_by_css_selector('img[alt=Edit]').click()
 
+    def open_contact_to_edit_by_id(self,id):
+        wd=self.app.wd
+        self.open_contacts_page()
+        self.select_contact_by_id(id)
+       # tr_id=tr.find_element_by_css_selector("input[value='%s']"%id)
+       # tr.find_element_by_css_selector('img[alt=Edit]').click()
+        for tr in wd.find_elements_by_css_selector('tr[name=entry]'):
+            if tr.find_element_by_css_selector("input[id='%s']"%id) == id:
+                tr.find_element_by_css_selector('img[alt=Edit]').click()
 
     def get_contact_info_homepage(self,index):
         wd=self.app.wd
@@ -160,6 +180,21 @@ class ContactHelper:
         alladress=cell[3].text
         contact= (Contact(lastname=lastname,firstname=firstname,id=id,allphones=allphones,allemail=allemail,alladress=alladress))
         return contact
+
+    def select_contact_by_id(self,id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
+
+    def delete_contact_by_id(self,id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.select_contact_by_id(id)
+        # delete contact
+        wd.find_element_by_css_selector("input[value='Delete']").click()
+        #wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
+        self.contact_cache=None
 
 
 
