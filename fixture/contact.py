@@ -116,7 +116,7 @@ class ContactHelper:
 
     contact_cache= None
 
-    def get_list(self):
+    def get_contact_list(self):
         wd=self.app.wd
         self.open_contacts_page()
         if  self.contact_cache is None:
@@ -161,11 +161,7 @@ class ContactHelper:
         wd=self.app.wd
         self.open_contacts_page()
         self.select_contact_by_id(id)
-       # tr_id=tr.find_element_by_css_selector("input[value='%s']"%id)
-       # tr.find_element_by_css_selector('img[alt=Edit]').click()
-        for tr in wd.find_elements_by_css_selector('tr[name=entry]'):
-            if tr.find_element_by_css_selector("input[id='%s']"%id) == id:
-                tr.find_element_by_css_selector('img[alt=Edit]').click()
+        wd.find_element_by_css_selector("input[value='%s']" % id).find_element_by_css_selector("img[alt='Edit']").click()
 
     def get_contact_info_homepage(self,index):
         wd=self.app.wd
@@ -191,8 +187,7 @@ class ContactHelper:
         self.open_contacts_page()
         self.select_contact_by_id(id)
         # delete contact
-        wd.find_element_by_css_selector("input[value='Delete']").click()
-        #wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         self.contact_cache=None
 

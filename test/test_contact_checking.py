@@ -13,7 +13,7 @@ def test_check_contact(app):
                                         droplist="//div[@id='content']/form/select[1]//option[4]",
                                         droplist2="//div[@id='content']/form/select[2]//option[8]",
                                         droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]"))
-    old_list=app.contact.get_list()
+    old_list=app.contact.get_contact_list()
     index=randrange(len(old_list))
     con1= app.contact.get_contact_info_homepage(index)
     con2=app.contact.get_contact_info_editpage(index)

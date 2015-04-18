@@ -11,7 +11,7 @@ def test_test_add_contact(app,db,json_contacts,check_ui):
      old_list.append(contact)
      assert sorted(old_list,key=Contact.id_or_max) == sorted(new_list,key=Contact.id_or_max)
      if check_ui:
-         assert sorted(new_list,key=Contact.id_or_max) ==sorted(app.contact.get_list(),key=Contact.id_or_max)
+         assert sorted(new_list,key=Contact.id_or_max) ==sorted(app.contact.get_contact_list(),key=Contact.id_or_max)
 
 def del_spaces(contact):
 
