@@ -161,7 +161,7 @@ class ContactHelper:
         wd=self.app.wd
         self.open_contacts_page()
         self.select_contact_by_id(id)
-        wd.find_element_by_css_selector("input[value='%s']" % id).find_element_by_css_selector("img[alt='Edit']").click()
+        wd.find_element_by_css_selector("input[value='%s']" % id).find_element_by_xpath("../..").find_element_by_css_selector("img[alt='Edit']").click()
 
     def get_contact_info_homepage(self,index):
         wd=self.app.wd
@@ -181,7 +181,6 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
-
     def delete_contact_by_id(self,id):
         wd = self.app.wd
         self.open_contacts_page()
@@ -189,6 +188,7 @@ class ContactHelper:
         # delete contact
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
+        self.open_contacts_page()
         self.contact_cache=None
 
 

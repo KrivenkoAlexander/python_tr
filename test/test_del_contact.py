@@ -14,7 +14,6 @@ def test_del_contact(app,db,check_ui):
         contact=random.choice(old_list)
         app.contact.delete_contact_by_id(contact.id)
         new_list=db.get_contact_list()
-        #assert len(old_list) == len(new_list)
         old_list.remove(contact)
         assert len(old_list) == len(new_list)
         if check_ui:

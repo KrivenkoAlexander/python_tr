@@ -17,8 +17,8 @@ def test_check_contact(app):
     index=randrange(len(old_list))
     con1= app.contact.get_contact_info_homepage(index)
     con2=app.contact.get_contact_info_editpage(index)
-    assert con1.firstname == con2.firstname
-    assert con1.lastname == con2.lastname
+    assert cut_space(con1.firstname) == cut_space(con2.firstname)
+    assert cut_space(con1.lastname) == cut_space(con2.lastname)
     assert con1.id == con2.id
     assert  con1.alladress == merge_adress_like_on_home_page(con2)
     assert  con1.allemail == merge_email_like_on_home_page(con2)
@@ -40,3 +40,6 @@ def  merge_email_like_on_home_page(con2):
 def  merge_adress_like_on_home_page(con2):
     return "\n".join(filter(lambda x:x!="",
                                filter(lambda x:x is not None,con2.address.split())))
+
+def cut_space (con):
+    return re.sub(" ",'',con)
