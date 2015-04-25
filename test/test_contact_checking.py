@@ -5,7 +5,7 @@ from random import randrange
 import re
 
 
-def test_check_contact(app):
+def test_check_contact(app,db):
     if app.contact.count()==0:
         app.contact.create_contact( Contact(firstname="Alex", middlename="a", lastname="Kriv", nickname="sd", title="fdf",
                                         company="sdd", address="we", homephone="we", mobilephone="433", workphone="443", fax="3",
@@ -14,16 +14,8 @@ def test_check_contact(app):
                                         droplist2="//div[@id='content']/form/select[2]//option[8]",
                                         droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]"))
     old_list=app.contact.get_contact_list()
-    index=randrange(len(old_list))
-    con1= app.contact.get_contact_info_homepage(index)
-    con2=app.contact.get_contact_info_editpage(index)
-    assert cut_space(con1.firstname) == cut_space(con2.firstname)
-    assert cut_space(con1.lastname) == cut_space(con2.lastname)
-    assert con1.id == con2.id
-    assert  con1.alladress == merge_adress_like_on_home_page(con2)
-    assert  con1.allemail == merge_email_like_on_home_page(con2)
-    assert  con1.allphones == merge_phones_like_on_home_page(con2)
-
+    con1=db.get_contact_list()
+    assert sorted(del_spaces(con1),key=Contact.id_or_max) ==sorted(del_spaces(old_list),key=Contact.id_or_max)
 
 def clear(s):
     return re.sub("[ () / -]","",s)
@@ -41,5 +33,11 @@ def  merge_adress_like_on_home_page(con2):
     return "\n".join(filter(lambda x:x!="",
                                filter(lambda x:x is not None,con2.address.split())))
 
-def cut_space (con):
-    return re.sub(" ",'',con)
+#def cut_space (con):
+#    return re.sub(" ",'',con)
+
+def del_spaces(contact):
+    for cont in contact:
+        cont.firstname=cont.firstname.replace(' ','')
+        cont.lastname=cont.lastname.replace(' ','')
+    return  contact

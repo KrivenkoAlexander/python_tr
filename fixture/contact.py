@@ -163,7 +163,21 @@ class ContactHelper:
         self.select_contact_by_id(id)
         wd.find_element_by_css_selector("input[value='%s']" % id).find_element_by_xpath("../..").find_element_by_css_selector("img[alt='Edit']").click()
 
-    def get_contact_info_homepage(self,index):
+    def get_contact_info_homepage_by_index(self,index):
+        wd=self.app.wd
+        self.open_contacts_page()
+        contact=wd.find_elements_by_css_selector("tr[name=entry]")[index]
+        cell=contact.find_elements_by_css_selector("td")
+        firstname=cell[2].text
+        lastname=cell[1].text
+        id=contact.find_element_by_name("selected[]").get_attribute("value")
+        allphones=cell[5].text
+        allemail=cell[4].text
+        alladress=cell[3].text
+        contact= (Contact(lastname=lastname,firstname=firstname,id=id,allphones=allphones,allemail=allemail,alladress=alladress))
+        return contact
+
+    def get_contact_all_info_homepage(self):
         wd=self.app.wd
         self.open_contacts_page()
         contact=wd.find_elements_by_css_selector("tr[name=entry]")[index]
