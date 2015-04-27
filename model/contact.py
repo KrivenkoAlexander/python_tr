@@ -40,7 +40,14 @@ class Contact:
         return "%s:%s:%s" %(self.id,self.lastname,self.firstname,)
 
     def __eq__(self, other):
-        return  (self.id is None or other.id is None or self.id==other.id) and (self.firstname== other.firstname or self.firstname is None or other.firstname is None) and ( self.lastname==other.lastname or self.lastname is None or other.lastname is None)
+        return  (self.id is None or other.id is None or self.id==other.id) and\
+                (self.firstname== other.firstname or self.firstname is None or other.firstname is None) and \
+                ( self.lastname==other.lastname or self.lastname is None or other.lastname is None)and\
+                (self.address==other.address or self.address is None or other.address is None) and \
+                (self.homephone==other.homephone or self.homephone is None or other.homephone is None) and\
+                (self.workphone==other.workphone or self.workphone is None or other.workphone is None) and\
+                (self.mobilephone==other.mobilephone or self.mobilephone is None or other.mobilephone is None)
+
 
     def id_or_max(self):
         if self.id:
