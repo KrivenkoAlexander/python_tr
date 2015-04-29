@@ -14,8 +14,8 @@ def test_check_contact(app,db):
                                         droplist2="//div[@id='content']/form/select[2]//option[8]",
                                         droplist3="//div[@id='content']/form/select[3]//option[3]",droplist4="//div[@id='content']/form/select[4]//option[8]"))
     old_list=app.contact.get_contact_list()
-    con1=db.get_contact_list()
-    assert sorted(del_spaces(con1),key=Contact.id_or_max) ==sorted(del_spaces(old_list),key=Contact.id_or_max)
+    con1=db.get_contact_cheking_list()
+    assert sorted(del_spaces(con1),key=Contact.id_or_max) == sorted(del_spaces(old_list),key=Contact.id_or_max)
 
 def clear(s):
     return re.sub("[ () / -]","",s)
@@ -40,4 +40,5 @@ def del_spaces(contact):
     for cont in contact:
         cont.firstname=cont.firstname.replace(' ','')
         cont.lastname=cont.lastname.replace(' ','')
+        cont.allphones=cont.allphones.replace("\n",'')
     return  contact

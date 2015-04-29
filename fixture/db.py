@@ -40,3 +40,15 @@ class DbFixture():
         finally:
             cursor.close()
         return list
+
+    def get_contact_cheking_list(self):
+        list=[]
+        cursor=self.connection.cursor()
+        try:
+            cursor.execute("select id,firstname, lastname, address,home,mobile,work,phone2 from addressbook where deprecated= '0000-00-00 00:00:00' ")
+            for row in cursor:
+                (id,firstname,lastname,address,home,mobile, work,phone2)=row
+                list.append(Contact(id=str(id),firstname=firstname,lastname=lastname,alladress=address.replace("\r",''),allphones=("%s"+"%s"+"%s"+"%s")%(home+"\n",mobile+"\n",work+"\n",phone2)))
+        finally:
+            cursor.close()
+        return list
